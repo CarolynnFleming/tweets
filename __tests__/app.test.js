@@ -2,7 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
-const User = require('../lib/models/User');
+const User = require('../lib/models/Github');
 
 jest.mock('../lib/middleware/authenticate.js', () => {
   return (req, res, next) => {
@@ -23,7 +23,7 @@ describe('github-oauth routes', () => {
     pool.end();
   });
 
-  it('should redirect to the github oauth oage upon login', async () => {
+  it('should redirect to the github oauth page upon login', async () => {
     const req = await request(app).get('/api/v1/github/login');
 
     expect(req.header.location).toMatch(

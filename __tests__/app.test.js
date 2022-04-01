@@ -4,15 +4,7 @@ const request = require('supertest');
 const app = require('../lib/app');
 const User = require('../lib/models/Github');
 
-jest.mock('../lib/middleware/authenticate.js', () => {
-  return (req, res, next) => {
-    req.user = {
-      username: 'test_user',
-      photoUrl: 'http://image.com/image.png',
-    };
-    next();
-  };
-});
+jest.mock('../lib/utils/github');
 
 describe('github-oauth routes', () => {
   beforeEach(() => {
@@ -29,5 +21,21 @@ describe('github-oauth routes', () => {
     expect(req.header.location).toMatch(
       /https:\/\/github.com\/login\/oauth\/authorize\?client_id=[\w\d]+&scope=user&redirect_uri=http:\/\/localhost:7890\/api\/v1\/github\/login\/callback/i
     );
+  });
+
+  it('should login and redirect users to /api/v1/github/tweets', async () => {
+    const req = await request
+      .agent(app)
+      .get('/api/v1/github/login/callback?code=42')
+      .redirects(1);
+
+    expect(req.body).toEqual({
+      id: expect.any(String),
+      username: 'fake_github_user',
+      email: 'not-real@example.com',
+      avatar:expect.any(String),
+      iat: expect.any(Number),
+      exp: expect.any(Number),
+    });
   });
 });

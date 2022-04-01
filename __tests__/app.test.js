@@ -33,7 +33,7 @@ describe('github-oauth routes', () => {
       id: expect.any(String),
       username: 'fake_github_user',
       email: 'not-real@example.com',
-      avatar:expect.any(String),
+      photo:expect.any(String),
       iat: expect.any(Number),
       exp: expect.any(Number),
     });

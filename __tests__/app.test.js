@@ -30,7 +30,6 @@ describe('github-oauth routes', () => {
       .redirects(1);
 
     expect(req.body).toEqual({
-      id: expect.any(String),
       username: 'fake_github_user',
       email: 'not-real@example.com',
       photo:expect.any(String),

@@ -22,7 +22,7 @@ describe('github-oauth routes', () => {
     );
   });
 
-  it('should login and redirect users to /api/v1/github/tweets', async () => {
+  it('should login and redirect users to /api/v1/github/dashboard', async () => {
     const req = await request
       .agent(app)
       .get('/api/v1/github/login/callback?code=42')

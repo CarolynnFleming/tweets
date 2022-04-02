@@ -4,6 +4,6 @@ DROP TABLE IF EXISTS github_users;
 
 CREATE TABLE github_users (
     username TEXT NOT NULL,
-    email, TEXT,
-    photo TEXT
+    email TEXT NOT NULL,
+    photo TEXT NOT NULL
 )

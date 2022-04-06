@@ -36,4 +36,18 @@ describe('github-oauth routes', () => {
       exp: expect.any(Number),
     });
   });
+
+  it('should remove a users cookie upn sign out', async () => {
+    const agent = request.agent(app);
+
+    await agent.get('/api/v1/github/login/callback?code=42').redirects(1);
+
+    const res = await agent.delete('/api/v1/github');
+
+    expect(res.body).toEqual({
+      success: true,
+      message: 'Signed out successfuly!',
+    });
+    expect.addSnapshotSerializer(res.status).toEqual(200);
+  });
 });

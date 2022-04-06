@@ -37,7 +37,7 @@ describe('github-oauth routes', () => {
     });
   });
 
-  it('should remove a users cookie upn sign out', async () => {
+  it('should remove a users cookie upon sign out', async () => {
     const agent = request.agent(app);
 
     await agent.get('/api/v1/github/login/callback?code=42').redirects(1);

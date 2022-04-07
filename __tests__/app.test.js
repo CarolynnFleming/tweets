@@ -3,6 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 
+
 jest.mock('../lib/utils/github');
 
 describe('github-oauth routes', () => {
@@ -39,8 +40,9 @@ describe('github-oauth routes', () => {
 
   it('should remove a users cookie upon sign out', async () => {
     const agent = request.agent(app);
-
-    await agent.get('/api/v1/github/login/callback?code=42').redirects(1);
+    await agent
+      .get('/api/v1/github/login/callback?code=42')
+      .redirects(1);
 
     const res = await agent.delete('/api/v1/github');
 
@@ -48,6 +50,6 @@ describe('github-oauth routes', () => {
       success: true,
       message: 'Signed out successfuly!',
     });
-    expect.addSnapshotSerializer(res.status).toEqual(200);
+    expect(res.status).toEqual(200);
   });
 });

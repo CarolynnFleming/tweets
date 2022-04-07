@@ -52,4 +52,22 @@ describe('github-oauth routes', () => {
     });
     expect(res.status).toEqual(200);
   });
+
+  it('creates a tweet via Post', async () => {
+    const agent = request.agent(app);
+
+    await agent.get('/api/v1/auth/login/callback?code=42');
+
+    return agent
+      .post('/api/v1/tweets')
+      .send({ text: 'The sun was so shiny today!' })
+      .then((res) => {
+        expect(res.body).toEqual({
+          id:'1',
+          text: 'The sun was so shiny today!',
+          username: 'fake_github_user'
+        });
+      });
+
+  });
 });

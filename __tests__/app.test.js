@@ -66,4 +66,23 @@ describe('github-oauth routes', () => {
       });
 
   });
+
+  it('should return an array of quote objects', async () => {
+    const res = await request(app).get('/api/v1/quotes');
+
+    expect(res.body).toEqual([
+      {
+        author: expect.any(String),
+        quote: expect.any(String),
+      },
+      {
+        author: expect.any(String),
+        quote: expect.any(String), 
+      },
+      {
+        author: expect.any(String),
+        quote: expect.any(String),
+      }
+    ]);
+  });
 });

@@ -23,13 +23,14 @@ describe('github-oauth routes', () => {
     );
   });
 
-  it('should login and redirect users to /api/v1/github/dashboard', async () => {
+  it('should login and redirect users to /api/v1/tweets', async () => {
     const req = await request
       .agent(app)
       .get('/api/v1/github/login/callback?code=42')
       .redirects(1);
 
     expect(req.body).toEqual({
+      id: expect.any(String),
       username: 'fake_github_user',
       email: 'not-real@example.com',
       photo:expect.any(String),
@@ -56,16 +57,16 @@ describe('github-oauth routes', () => {
   it('creates a tweet via Post', async () => {
     const agent = request.agent(app);
 
-    await agent.get('/api/v1/auth/login/callback?code=42');
+    await agent.get('/api/v1/github/login/callback?code=42');
 
     return agent
       .post('/api/v1/tweets')
       .send({ text: 'The sun was so shiny today!' })
       .then((res) => {
         expect(res.body).toEqual({
-          id:'1',
+          id:expect.any(String),
           text: 'The sun was so shiny today!',
-          username: 'fake_github_user'
+          username:expect.any(String),
         });
       });
 
